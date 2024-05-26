@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+        {% load static %}
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Expires" content="0">
+
+        <style>
+            body {
+                background-color: lightgray;
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+
+            .navbar {
+                background-color: #ffffff;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                padding: 10px 20px;
+            }
+
+            .navbar-brand {
+                font-weight: bold;
+            }
+
+            .navbar-nav {
+                display: flex;
+                gap: 20px;
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .navbar-nav .nav-item {
+                padding: 10px;
+            }
+
+            .navbar-nav .nav-item a {
+                text-decoration: none;
+                color: #007bff;
+                font-size: 16px;
+                font-weight: bold;
+            }
+
+            .navbar-nav .nav-item a:hover {
+                color: #0056b3;
+            }
+
+            .container-flex {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px;
+                max-width: 800px;
+                margin: auto;
+            }
+
+            .logout-btn h1 {
+                margin: 20px 0;
+            }
+
+            #hello-msg {
+                margin-bottom: 20px;
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            .post-container {
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                margin-bottom: 20px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .post-container h2 a {
+                text-decoration: none;
+                color: #007bff;
+            }
+
+            .post-container h2 a:hover {
+                color: #0056b3;
+            }
+
+            .post-container p {
+                margin: 10px 0;
+                text-align: justify;
+            }
+        </style>
+    {% endblock %}
+
+    {% block title %}
+        <title>CMS</title>
+    {% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="index.html">CMS</a>
+
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                    <li class="nav-item"><a class="" href="{% url 'create_post' %}">Create Post</a></li>
+                    <li class="nav-item"><a class="" href="{% url 'accueil' %}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% block body %}
+    <div class="container-flex">
+        <div class="logout-btn">
+            <h1>Posts</h1>
+        </div>
+        <span id="hello-msg">Hello, {{ request.user }}</span>
+        <ul>
+            {% for p in posts %}
+    <div class="post-container">
+        <li>
+            <h2><a href="{% url 'post_detail' p.pk %}">{{ p.title }}</a></h2>
+            <p>{{ p.body }}</p>
+            <p>By: {{ p.author }}</p>
+                    {% if p.image %}
+                    <img src="{{ p.image.url }}" alt="image" style="width: 100%; height: auto;">
+                    {% else %}
+                    <p>No image available.</p>
+                    {% endif %}
+        </li>
+    </div>
+{% endfor %}
+
+        </ul>
+    </div>
+    {% endblock %}
+</body>
+</html>
